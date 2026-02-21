@@ -1,0 +1,90 @@
+<!-- become-seller.html -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Become a Seller - QuantumQuikShop</title>
+  <link rel="stylesheet" href="css/category.css">
+  <style>
+    .seller-container { max-width:700px;margin:30px auto;padding:20px;background:#fff;border-radius:10px;box-shadow:0 6px 18px rgba(0,0,0,0.06); }
+    .seller-container label{display:block;margin-top:10px;font-weight:600}
+    .seller-container input, .seller-container textarea { width:100%; padding:8px; margin-top:6px; border-radius:6px; border:1px solid #ccc; }
+    .seller-submit { margin-top:12px;padding:10px 14px;background:#ff7f50;border:none;color:#fff;border-radius:8px;cursor:pointer;font-weight:700; }
+    .seller-note { color:#666; margin-top:8px; font-size:0.95rem; }
+  </style>
+</head>
+<body>
+  <header style="padding:12px 20px; background:#ffefd5;">
+    <a href="index.html">← Back to Shop</a>
+    <div id="authHeader" style="float:right;"></div>
+  </header>
+
+  <main>
+    <div class="seller-container">
+      <h2>Become a Seller</h2>
+      <p class="seller-note">Create your seller profile. You must be logged in to become a seller.</p>
+
+      <form id="seller-form" onsubmit="event.preventDefault(); submitSeller();">
+        <label for="store-name">Store Name</label>
+        <input id="store-name" type="text" required />
+
+        <label for="store-desc">Store Description</label>
+        <textarea id="store-desc" rows="4" required></textarea>
+
+        <label for="store-phone">Contact Phone</label>
+        <input id="store-phone" type="tel" required />
+
+        <label for="store-address">Address</label>
+        <textarea id="store-address" rows="3" required></textarea>
+
+        <label for="store-logo">Store Logo URL (optional)</label>
+        <input id="store-logo" type="text" placeholder="https://..." />
+
+        <button class="seller-submit">Submit Seller Application</button>
+      </form>
+    </div>
+  </main>
+
+  <script src="js/auth.js"></script>
+  <script>
+    // show header
+    renderAuthHeader('#authHeader');
+
+    // ensure logged in
+    if (!getCurrentUser()) {
+      // require login and remember return path
+      requireLogin(window.location.pathname);
+    }
+
+    function submitSeller() {
+      const user = getCurrentUser();
+      if (!user) { alert('Please login to apply as seller.'); requireLogin(window.location.pathname); return; }
+
+      const storeName = document.getElementById('store-name').value.trim();
+      const desc = document.getElementById('store-desc').value.trim();
+      const phone = document.getElementById('store-phone').value.trim();
+      const addr = document.getElementById('store-address').value.trim();
+      const logo = document.getElementById('store-logo').value.trim();
+
+      if (!storeName || !desc || !phone || !addr) { alert('Please fill all required fields'); return; }
+
+      // save to localStorage
+      const sellers = JSON.parse(localStorage.getItem('qqs_sellers') || '[]');
+      // store owner is current user's email
+      const seller = {
+        ownerEmail: user.email,
+        ownerName: user.name,
+        storeName, desc, phone, addr, logo,
+        createdAt: new Date().toISOString()
+      };
+      sellers.push(seller);
+      localStorage.setItem('qqs_sellers', JSON.stringify(sellers));
+
+      alert('Seller application submitted! Your store will appear after review (mock).');
+      // Optionally send user to a dashboard or back to homepage
+      window.location.href = '/index.html';
+    }
+  </script>
+</body>
+</html>

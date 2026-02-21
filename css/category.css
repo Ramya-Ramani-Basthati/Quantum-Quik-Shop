@@ -1,0 +1,115 @@
+/* Category Page Styles */
+body {
+    font-family: 'Roboto Condensed', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #fefefe;
+}
+
+/* Header */
+header {
+    display: flex;
+    align-items: center;
+    padding: 15px 30px;
+    background-color: #ffefd5;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+header a {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+}
+
+/* Category Title */
+h2 {
+    text-align: center;
+    margin: 20px 0;
+    color: #333;
+}
+
+/* Products Grid */
+.products {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    margin: 0 20px 30px 20px;
+}
+
+.product-card {
+    width: 180px;
+    text-align: center;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.product-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+}
+
+.product-card img {
+    width: 100%;
+    border-radius: 8px;
+}
+
+.product-card h3 {
+    margin: 10px 0 5px 0;
+    font-size: 16px;
+}
+
+.product-card p {
+    margin: 5px 0;
+    color: #ff4500;
+    font-weight: bold;
+}
+
+.product-card button {
+    padding: 5px 10px;
+    border: none;
+    background-color: #ff7f50;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .products {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+/* ===== Jewellery Sub Category ===== */
+
+.page-title {
+  padding: 20px 30px;
+  font-size: 28px;
+}
+
+.sub-category-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
+  gap: 20px;
+  padding: 30px;
+}
+
+.sub-card {
+  padding: 40px 20px;
+  background: #f4f4f4;
+  text-align: center;
+  border-radius: 14px;
+  cursor: pointer;
+  font-size: 18px;
+  transition: 0.3s;
+}
+
+.sub-card:hover {
+  background: #ab3bda;
+  color: #fff;
+}

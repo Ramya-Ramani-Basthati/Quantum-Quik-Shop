@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Search Results</title>
+  <style>
+    .product-card {
+      border: 1px solid #ddd;
+      padding: 15px;
+      margin: 15px;
+      width: 220px;
+      display: inline-block;
+      vertical-align: top;
+      text-align: center;
+    }
+
+    .product-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .product-card h3 {
+      margin: 10px 0 5px;
+    }
+
+    .product-card p {
+      margin: 5px 0;
+    }
+
+    .product-card a {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 6px 10px;
+      background: black;
+      color: white;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+
+<h2>Search Results</h2>
+<div id="results"></div>
+
+<script src="js/products.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+  const query = localStorage.getItem("qqs_search_query");
+  const results = document.getElementById("results");
+
+  if (!query) {
+    results.innerHTML = "No search query found.";
+    return;
+  }
+
+  const foundProducts = PRODUCTS.filter(product =>
+    product.name.toLowerCase().includes(query.toLowerCase())
+  );
+
+  if (foundProducts.length === 0) {
+    results.innerHTML = "<p>No products found.</p>";
+    return;
+  }
+
+  foundProducts.forEach(product => {
+    results.innerHTML += `
+      <div class="product-card">
+        <img src="${product.image}" alt="${product.name}">
+        <h3>${product.name}</h3>
+        <p><strong>₹${product.price}</strong></p>
+        <p>${product.description}</p>
+        <a href="${product.page}">View Product</a>
+      </div>
+    `;
+  });
+
+});
+</script>
+
+</body>
+</html>

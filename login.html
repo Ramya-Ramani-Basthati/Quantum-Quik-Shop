@@ -1,0 +1,109 @@
+<!-- login.html -->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Login - QuantumQuikShop</title>
+  <link rel="stylesheet" href="css/category.css">
+  <style>
+    /* small local styles for the login page */
+    .auth-container { max-width: 420px; margin: 40px auto; padding: 20px; background: #fff; border-radius: 10px; box-shadow: 0 6px 18px rgba(0,0,0,0.08); }
+    .tabs { display:flex; gap:8px; margin-bottom: 18px; }
+    .tabs button { flex:1; padding: 10px; border-radius: 8px; border:1px solid #eee; background:#fafafa; cursor:pointer; }
+    .tabs button.active { background:#ff7f50; color:#fff; border-color: #ff7f50; }
+    .auth-container label { display:block; margin-top:10px; font-weight:600; color:#333; }
+    .auth-container input, .auth-container textarea { width:100%; padding:8px 10px; margin-top:6px; border:1px solid #ccc; border-radius:6px; }
+    .auth-container .small { font-size:0.9rem; color:#666; margin-top:8px; }
+    .auth-submit { margin-top:14px; display:block; width:100%; padding:10px; background:#ff7f50; color:#fff; border:none; border-radius:6px; cursor:pointer; font-weight:700; }
+    .link-button { background:none;border:none;color:#ff7f50;cursor:pointer;font-weight:700; }
+  </style>
+</head>
+<body>
+  <header style="padding:12px 20px; background:#ffefd5;">
+    <a href="index.html">← Back to Shop</a>
+    <div id="authHeader" style="float:right;"></div>
+  </header>
+
+  <main>
+    <div class="auth-container">
+      <div class="tabs">
+        <button id="tab-login" class="active">Login</button>
+        <button id="tab-register">Register</button>
+      </div>
+
+      <div id="login-form">
+        <label for="login-email">Email</label>
+        <input id="login-email" type="email" required />
+        <label for="login-password">Password</label>
+        <input id="login-password" type="password" required />
+        <button id="login-btn" class="auth-submit">Login</button>
+        <p class="small">Don't have an account? <button id="goto-register" class="link-button">Register</button></p>
+      </div>
+
+      <div id="register-form" style="display:none;">
+        <label for="reg-name">Full Name</label>
+        <input id="reg-name" type="text" required />
+        <label for="reg-email">Email</label>
+        <input id="reg-email" type="email" required />
+        <label for="reg-password">Password</label>
+        <input id="reg-password" type="password" required />
+        <button id="register-btn" class="auth-submit">Create Account</button>
+        <p class="small">Already have an account? <button id="goto-login" class="link-button">Login</button></p>
+      </div>
+    </div>
+  </main>
+
+  <script src="js/auth.js"></script>
+  <script>
+    // header auth render
+    renderAuthHeader('#authHeader');
+
+    // tab logic
+    const tabLogin = document.getElementById('tab-login');
+    const tabRegister = document.getElementById('tab-register');
+    const loginForm = document.getElementById('login-form');
+    const registerForm = document.getElementById('register-form');
+
+    function showLogin() {
+      tabLogin.classList.add('active');
+      tabRegister.classList.remove('active');
+      loginForm.style.display = '';
+      registerForm.style.display = 'none';
+    }
+    function showRegister() {
+      tabRegister.classList.add('active');
+      tabLogin.classList.remove('active');
+      loginForm.style.display = 'none';
+      registerForm.style.display = '';
+    }
+    tabLogin.addEventListener('click', showLogin);
+    tabRegister.addEventListener('click', showRegister);
+    document.getElementById('goto-register').addEventListener('click', showRegister);
+    document.getElementById('goto-login').addEventListener('click', showLogin);
+
+    // login
+    document.getElementById('login-btn').addEventListener('click', () => {
+      const email = document.getElementById('login-email').value.trim();
+      const password = document.getElementById('login-password').value;
+      if (!email || !password) { alert('Please enter email and password'); return; }
+      const res = loginUser(email, password);
+      if (!res.ok) { alert(res.error); return; }
+      alert('Login successful');
+      redirectAfterLogin('index.html');
+    });
+
+    // register
+    document.getElementById('register-btn').addEventListener('click', () => {
+      const name = document.getElementById('reg-name').value.trim();
+      const email = document.getElementById('reg-email').value.trim();
+      const password = document.getElementById('reg-password').value;
+      if (!name || !email || !password) { alert('Please fill all fields'); return; }
+      const res = registerUser(name, email, password);
+      if (!res.ok) { alert(res.error); return; }
+      alert('Account created! You can now login.');
+      showLogin();
+    });
+  </script>
+</body>
+</html>

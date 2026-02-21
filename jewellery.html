@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Jewellery</title>
+  <link rel="stylesheet" href="css/category.css">
+</head>
+<body>
+
+<h2 class="page-title">Jewellery Collections</h2>
+
+<section class="sub-category-grid">
+
+  <div class="sub-card" onclick="openJewellery('bangles')">Bangles</div>
+  <div class="sub-card" onclick="openJewellery('chains')">Chains</div>
+  <div class="sub-card" onclick="openJewellery('rings')">Rings</div>
+  <div class="sub-card" onclick="openJewellery('bracelets')">Bracelets</div>
+  <div class="sub-card" onclick="openJewellery('earrings')">Earrings</div>
+
+</section>
+
+<script>
+function openJewellery(type){
+  window.location.href = "jewellery-" + type + ".html";
+}
+</script>
+
+</body>
+</html>
